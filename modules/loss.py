@@ -57,9 +57,9 @@ class CrossCorrelationLoss(nn.Module):
         batch_size = y_i.size(0)
         c = self.bn(y_i).T @ self.bn(y_j)
         # sum the cross-correlation matrix between all gpus
-        c.div_(batch_size)
-        on_diag = torch.diagonal(c).add_(-1).pow_(2).sum()
-        off_diag = self.off_diagonal(c).pow_(2).sum()
+        c = c / batch_size
+        on_diag = (torch.diagonal(c) - 1).pow(2).sum()
+        off_diag = self.off_diagonal(c).pow(2).sum()
         loss = on_diag + self.lambd * off_diag
         return loss
 
@@ -89,7 +89,7 @@ class ClusteringLoss(nn.Module):
             # cluster_center = F.normalize(cluster_center)
             x = torch.matmul(cluster_center, cluster_center.t())
             n, m = x.shape
-            reg_loss = torch.norm(x - torch.eye(n).to(cluster_center.device)).pow_(2).sum()
+            reg_loss = torch.norm(x - torch.eye(n).to(cluster_center.device)).pow(2).sum()
             # off_diag = x.flatten()[:-1].view(n - 1, n + 1)[:, 1:].flatten().pow(2).sum()
             # loss += 1e-5 * reg_loss
         prob = y_prob.sum(0).view(-1)

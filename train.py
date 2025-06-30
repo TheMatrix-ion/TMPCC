@@ -80,18 +80,20 @@ if __name__ == "__main__":
     if args.dataset == "Houston":
         im_1, im_2 = 'data_HS_LR', 'data_MS_HR'
         gt_ = 'GT-ALL'
-        img_path = (root + im_1 + '.mat', root + im_2 + '.mat')
     elif args.dataset == "Trento":
         im_1, im_2 = 'Trento-HSI', 'Trento-Lidar'
         gt_ = 'Trento-GT'
-        img_path = (root + im_1 + '.mat', root + im_2 + '.mat')
     elif args.dataset == "Augsburg":
         im_1, im_2 = 'data_HS_LR', 'data_SAR_HR'
         gt_ = 'GT-ALL'
-        img_path = (root + im_1 + '.mat', root + im_2 + '.mat')
     else:
         raise NotImplementedError
-    gt_path = root + gt_ + '.mat'
+
+    img_path = (
+        os.path.join(root, im_1 + '.mat'),
+        os.path.join(root, im_2 + '.mat')
+    )
+    gt_path = os.path.join(root, gt_ + '.mat')
     dataset_train = dataset.MultiModalDataset(gt_path, *img_path, patch_size=(args.image_size, args.image_size),
                                               transform=transform.Transforms(size=args.image_size),
                                               is_labeled=False)

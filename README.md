@@ -18,7 +18,7 @@ Configurations  are defined in config.yaml.
     
     
     dataset: "Trento"
-    dataset_root: 'HSI-Lidar-Trento\\'
+    dataset_root: 'HSI-Lidar-Trento/'
     model_path:  "save/Trento"
     
     
