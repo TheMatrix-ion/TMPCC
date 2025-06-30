@@ -4,7 +4,7 @@ workers: 2
 
 
 dataset: "Trento"
-dataset_root: 'HSI-Lidar-Trento\\'
+dataset_root: 'HSI-Lidar-Trento/'
 model_path:  "save/Trento"
 
 
